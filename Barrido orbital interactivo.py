@@ -6,7 +6,7 @@ Created on Thu Nov 16 11:40:22 2023
 """
 
 from matplotlib.widgets import Slider
-# import addcopyfighandler
+import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl

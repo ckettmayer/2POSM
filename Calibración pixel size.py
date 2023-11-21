@@ -8,7 +8,7 @@ Created on Mon Nov 20 00:06:10 2023
 
 ### Pixel size calibration (known particle size) ###
 
-
+import addcopyfighandler
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,7 +18,10 @@ from scipy.optimize import curve_fit
 
 im = Image.open('part_300nm.tif')   
 plt.imshow(im)
+plt.title('Original Image')
 
+
+##COMPLETE##
 known_size = 300 #(nm)
 
 
@@ -42,7 +45,7 @@ popt, pcov = curve_fit(I_gauss, xdata, ydata, p0)
 
 Z_fit = I_gauss(xdata, *popt).reshape(N, N)
 
-w = popt[3]
+w = np.abs(popt[3])
 w_err = np.sqrt(pcov[3, 3])
 
 pixel_size = known_size / w

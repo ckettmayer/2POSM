@@ -9,7 +9,7 @@ Created on Tue Nov 14 12:55:45 2023
 
 import numpy as np
 import matplotlib.pyplot as plt
-# import addcopyfighandler
+import addcopyfighandler
 import matplotlib as mpl
 import cmasher as cmr
 
