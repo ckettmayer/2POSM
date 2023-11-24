@@ -20,7 +20,7 @@ def Iorb_donut(A,theta,r,phi,I0,w0,B):
     return(I0*2*np.e*(A**2+r**2-2*A*r*np.cos(theta-phi))/(w0**2)*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi)))+B)
 
 I0 = 1
-w0 = 150
+w0 = 300
 B = 0
 
 A = 150
@@ -31,18 +31,20 @@ theta = np.linspace(0, 2*np.pi,N)
 r = 25
 phi = np.pi/2
 
+
+
 #%%
 
 #Plot perfiles de intensidad
-fig = plt.figure(figsize=(5, 5))
-rplot = np.linspace(0,2*w0,100)
-plt.plot(rplot, Iorb_gauss(rplot,0,0,0,I0,w0,B), label='gauss')
-plt.plot(rplot, Iorb_donut(rplot,0,0,0,I0,w0,B), label='donut')
-plt.title(f'I0={I0}, w0={w0}nm, (A,theta)=(0,0), (r,phi)=(0,0)')
-plt.ylabel('I (a.u.)')
-plt.xlabel('x (nm)')
-plt.grid()
-plt.legend()
+# fig = plt.figure(figsize=(5, 5))
+# rplot = np.linspace(0,2*w0,100)
+# plt.plot(rplot, Iorb_gauss(rplot,0,0,0,I0,w0,B), label='gauss')
+# plt.plot(rplot, Iorb_donut(rplot,0,0,0,I0,w0,B), label='donut')
+# plt.title(f'I0={I0}, w0={w0}nm, (A,theta)=(0,0), (r,phi)=(0,0)')
+# plt.ylabel('I (a.u.)')
+# plt.xlabel('x (nm)')
+# plt.grid()
+# plt.legend()
     
 
 
@@ -52,8 +54,8 @@ plt.legend()
 
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 def Iorb(A,theta,r,phi,I0,w0,B):
-    # return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
-    return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
+    return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
+    # return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
 
 
 colors = Iorb(A,theta,r,phi,I0,w0,B)
@@ -91,9 +93,11 @@ fig.suptitle(f'{haz}, I0={I0}, w0={w0}nm, B={B}, N={N}, A={A}nm, r={r}nm, $\phi$
 
 ax2 = fig.add_subplot(gs[1])
 ax2.grid()
-ax2.scatter(theta, Iorb(A,theta,r,phi,I0,w0,B), c=colors, marker='o', s=100, cmap=cm, norm=norm)
+
+ax2.scatter(theta*180/np.pi, Iorb(A,theta,r,phi,I0,w0,B), c=colors, marker='o', s=100, cmap=cm, norm=norm)
+
 # ax2.scatter(phi,0, color='y', marker='*', s=250, edgecolors='k', zorder=3)
-ax2.set_xlabel(r'$\theta$ (rad)')
+ax2.set_xlabel(r'$\theta$ (rº)')
 ax2.set_ylabel('I (a.u.)')
 ax2.set_ylim(0, I0+0.1*I0)
 # ax2.set_ylim(0.7, 0.9)

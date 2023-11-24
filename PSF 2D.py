@@ -15,7 +15,7 @@ import cmasher as cmr
 
 
 def I_gausslorXY(x,y,xs,ys,I0,w):
-    return ((2*I0) / (np.pi) * np.exp(- 2* ((x-xs)**2+(y-ys)**2)/(w**2))) 
+    return ((2*I0) / (np.pi) * np.exp(- 2*((x-xs)**2+(y-ys)**2)/(w**2))) 
 
 xs, ys = 0, 0  #scanner centrado
 I0 = 1

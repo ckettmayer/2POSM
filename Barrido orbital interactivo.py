@@ -10,6 +10,8 @@ import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import matplotlib.colors as mcolors
+
 
 #I con haz gaussiano
 def Iorb_gauss(A,theta,r,phi,I0,w0,B):
@@ -32,17 +34,17 @@ r = 0.1
 phi = 0
 
 
-fig = plt.figure(figsize=(5, 5))
+# fig = plt.figure(figsize=(5, 5))
 # plt.plot(theta,Iorb_gauss(A,theta,r,phi,I0,w0,B))
 
-rplot = np.linspace(0,2*w0,100)
-plt.plot(rplot, Iorb_gauss(rplot,0,0,0,I0,w0,B), label='gauss')
-plt.plot(rplot, Iorb_donut(rplot,0,0,0,I0,w0,B), label='donut')
-plt.title(f'I0={I0}, w0={w0}nm, (A,theta)=(0,0), (r,phi)=(0,0)')
-plt.ylabel('I (a.u.)')
-plt.xlabel('x (nm)')
-plt.grid()
-plt.legend()
+# rplot = np.linspace(-2*w0,2*w0,100)
+# plt.plot(rplot, Iorb_gauss(rplot,0,0,0,I0,w0,B), label='gauss')
+# plt.plot(rplot, Iorb_donut(rplot,0,0,0,I0,w0,B), label='donut')
+# plt.title(f'I0={I0}, w0={w0}nm, (A,theta)=(0,0), (r,phi)=(0,0)')
+# plt.ylabel('I (a.u.)')
+# plt.xlabel('x (nm)')
+# plt.grid()
+# plt.legend()
     
 
 
@@ -52,8 +54,8 @@ plt.legend()
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 
 def Iorb(A,theta,r,phi,I0,w0,B):
-    # return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
-    return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
+    return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
+    # return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
 
 
 colors = Iorb(A,theta,r,phi,I0,w0,B)
@@ -65,30 +67,61 @@ sm.set_array([])
 
 
 
-fig = plt.figure( figsize=(7, 9))
+fig = plt.figure(figsize=(7, 9))
 ax = fig.add_subplot(projection='polar')
 
-#Sliders
+#Sliders for r and phi
 ax_parameter_r = plt.axes([0.17, 0.15, 0.65, 0.03], facecolor='lightgoldenrodyellow')   #[left, bottom, width, height]
-slider_r = Slider(ax_parameter_r, 'r', 0, A, valinit=r)
+slider_r = Slider(ax_parameter_r, 'r', 0, 2*A, valinit=r)
 ax_parameter_phi = plt.axes([0.17, 0.1, 0.65, 0.03], facecolor='lightgoldenrodyellow')
-slider_phi = Slider(ax_parameter_phi, 'phi', 0, 360, valinit=phi)
+slider_phi = Slider(ax_parameter_phi, 'phi', 0, 360, valinit=phi)    #el slider de phi está en grados, pero al evaluar el valor hay que pasar a radianes
 
-ax.scatter(theta, theta*0+A, c=colors, marker='o', s=100, cmap=cm, norm=norm, alpha=1)
-ax.scatter(phi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)
-# ax.set_ylim(0, A+0.1*A)
+
+
+#Create a polar mesh for PSF plot
+rplot = np.linspace(-2*A,2*A,100)
+phiplot = np.linspace(-2*A, 2*A, 100)
+X, Y = np.meshgrid(phiplot, rplot)
+
+#Convert to polar coordinates
+R, Phi = np.sqrt(X**2 + Y**2), np.arctan2(Y, X)
+color2 = Iorb(R, Phi, A, 0, I0, w0, B)
+
+#Custom colormap white-red for PSF
+color_max = 'red'  # Puedes usar códigos hexadecimales o nombres de colores estándar
+color_min = 'white'
+cmap_segments = {
+    'red': [(0.0, 1.0, 1.0), (1.0, 1.0, 1.0)],  # Rojo a Blanco en el canal red
+    'green': [(0.0, 0.0, 0.0), (1.0, 1.0, 1.0)],  # Sin cambio en el canal green
+    'blue': [(0.0, 0.0, 0.0), (1.0, 1.0, 1.0)]  # Sin cambio en el canal blue
+}
+custom_cmap = mcolors.LinearSegmentedColormap('custom_colormap', cmap_segments, 256)
+
+#PLOT PSF
+ax.scatter(Phi, R, c=color2, marker='o', s=250, cmap = custom_cmap.reversed(), zorder=1)          
+
+
+
+orbit = ax.scatter(theta, theta*0+A, c=colors, marker='o', s=100, cmap=cm, norm=norm, alpha=1)  #orbita
+particle = ax.scatter(phi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)              #particula
+
+
+
+
+
+
 ax.set_ylim(0, 2*A)
 
 
 # Función llamada al cambiar el valor del slider
 def update(val):
-    ax.clear() 
+    ax.clear()
     r = slider_r.val
     phi = slider_phi.val
-    colors = Iorb(A,theta,r,phi,I0,w0,B)
+    colors = Iorb(A,theta,r,phi*np.pi/180,I0,w0,B)
+    ax.scatter(Phi, R, c=color2, marker='o', s=250, cmap = custom_cmap.reversed(), zorder=1)    
     ax.scatter(theta, theta*0+A, c=colors, marker='o', s=100, cmap=cm, norm=norm, alpha=1)
-    ax.scatter(phi*180/np.pi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)
-    # ax.set_ylim(0, A+0.1*A)
+    ax.scatter(phi*np.pi/180, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)
     ax.set_ylim(0, 2*A)
     fig.canvas.draw_idle()
     
