@@ -21,7 +21,7 @@ def Iorb_donut(A,theta,r,phi,I0,w0,B):
 
 
 I0 = 1
-w0 = 300
+w0 = 150
 B = 0
 
 A = 150
@@ -52,8 +52,8 @@ plt.legend()
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 
 def Iorb(A,theta,r,phi,I0,w0,B):
-    return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
-    # return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
+    # return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
+    return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
 
 
 colors = Iorb(A,theta,r,phi,I0,w0,B)
@@ -65,18 +65,19 @@ sm.set_array([])
 
 
 
-fig = plt.figure( figsize=(5, 6))
+fig = plt.figure( figsize=(7, 9))
 ax = fig.add_subplot(projection='polar')
 
 #Sliders
 ax_parameter_r = plt.axes([0.17, 0.15, 0.65, 0.03], facecolor='lightgoldenrodyellow')   #[left, bottom, width, height]
 slider_r = Slider(ax_parameter_r, 'r', 0, A, valinit=r)
 ax_parameter_phi = plt.axes([0.17, 0.1, 0.65, 0.03], facecolor='lightgoldenrodyellow')
-slider_phi = Slider(ax_parameter_phi, 'phi', 0, 2*np.pi, valinit=phi)
+slider_phi = Slider(ax_parameter_phi, 'phi', 0, 360, valinit=phi)
 
 ax.scatter(theta, theta*0+A, c=colors, marker='o', s=100, cmap=cm, norm=norm, alpha=1)
 ax.scatter(phi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)
-ax.set_ylim(0, A+0.1*A)
+# ax.set_ylim(0, A+0.1*A)
+ax.set_ylim(0, 2*A)
 
 
 # Función llamada al cambiar el valor del slider
@@ -86,8 +87,9 @@ def update(val):
     phi = slider_phi.val
     colors = Iorb(A,theta,r,phi,I0,w0,B)
     ax.scatter(theta, theta*0+A, c=colors, marker='o', s=100, cmap=cm, norm=norm, alpha=1)
-    ax.scatter(phi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)
-    ax.set_ylim(0, A+0.1*A)
+    ax.scatter(phi*180/np.pi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)
+    # ax.set_ylim(0, A+0.1*A)
+    ax.set_ylim(0, 2*A)
     fig.canvas.draw_idle()
     
     
