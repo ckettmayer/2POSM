@@ -6,7 +6,7 @@ Created on Fri Nov 24 11:27:03 2023
 """
 
 
-import addcopyfighandler
+# import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -57,13 +57,13 @@ sm.set_array([])
 
 
 #Create a polar mesh for PSF plot
-rplot = np.linspace(-2*A,2*A,500)
-phiplot = np.linspace(-2*A, 2*A, 500)
-X, Y = np.meshgrid(phiplot, rplot)
+xplot = np.linspace(0,360,100)
+yplot = np.linspace(0, 2*A, 100)
+X, Y = np.meshgrid(xplot, yplot)
 
 #Convert to polar coordinates
 R, Phi = np.sqrt(X**2 + Y**2), np.arctan2(Y, X)
-color2 = Iorb(R, Phi, A, np.pi/2, I0, w0, B)
+color2 = Iorb(A, np.pi/2, R, Phi, I0, w0, B)
 
 #Custom colormap white-red for PSF
 color_max = 'red'  # Puedes usar códigos hexadecimales o nombres de colores estándar
@@ -75,12 +75,18 @@ cmap_segments = {
 }
 custom_cmap = mcolors.LinearSegmentedColormap('custom_colormap', cmap_segments, 256)
 
+# contour = ax.contour(Phi, R, color2, levels=10, cmap='viridis')
+
 #PLOT PSF
-ax.scatter(Phi, R, c=color2, marker='o', s=250, cmap = custom_cmap.reversed(), zorder=1)                 
+ax.scatter(Phi, R, c=color2, marker='o', s=5, cmap = custom_cmap.reversed(), zorder=1)                 
+
+# ax.scatter(Phi, R, c=color2, marker='o', s=250, cmap = 'plasma', zorder=1)                 
 
 
-ax.scatter(theta, theta*0+A, c=Iorb(A,theta,r,phi,I0,w0,B), marker='o', s=100, cmap=cm, norm=norm, alpha=1, zorder=4)         #orbit
-ax.scatter(phi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)                                                    #particle
+# ax.scatter(theta, theta*0+A, c=Iorb(A,theta,r,phi,I0,w0,B), marker='o', s=100, cmap=cm, norm=norm, alpha=1, zorder=4)         #orbit
+# ax.scatter(phi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)                                                    #particle
+
+
 ax.set_ylim(0, 2*A)
 
 
@@ -88,7 +94,19 @@ ax.set_ylim(0, 2*A)
 
 fig2 = plt.figure(figsize=(5, 5))
 ax = fig2.add_subplot()
-ax.scatter(X, Y, c=color2, marker='o', s=250, cmap = custom_cmap.reversed(), zorder=1)                 
+ax.scatter(X, Y, c=color2, marker='o', s=5, cmap = custom_cmap.reversed(), zorder=1)
+
+# ax.scatter(X, Y, c=color2, marker='o', s=250, cmap = 'plasma', zorder=1)    
+
+# contour = ax.contour(X, Y, color2, levels=10, cmap='viridis')             
 plt.grid()
-plt.xlim(-300,300)
-plt.ylim(-300,300)
+plt.xlim(-200,200)
+plt.ylim(-100,300)
+
+
+
+    
+    
+    
+    
+    

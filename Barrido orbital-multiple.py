@@ -5,10 +5,10 @@ Created on Wed Nov 15 17:25:31 2023
 @author: ckettmayer
 """
 
+# import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import addcopyfighandler
 
 
 #I con haz gaussiano
