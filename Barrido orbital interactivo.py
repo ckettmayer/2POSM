@@ -23,7 +23,7 @@ def Iorb_donut(A,theta,r,phi,I0,w0,B):
 
 
 I0 = 1
-w0 = 150
+w0 = 300
 B = 0
 
 N = 100 #Orbit points
@@ -36,6 +36,8 @@ phi = np.pi/2   #Theta and phi variables are stored in radians, but are plotted 
 
 l = 300         #max particle distance from origin
 
+
+#%%
 
 # psf plot
 # fig = plt.figure(figsize=(5, 5))
@@ -86,11 +88,15 @@ slider_A = Slider(ax_parameter_A, 'A', 50, l, valinit=A)    #el slider de phi es
 
 
 #Create a polar mesh for PSF plot
-xplot = np.linspace(-2*A,2*A,100)
-yplot = np.linspace(-2*A, 2*A, 150)
+xplot = np.linspace(-1.5*l,1.5*l,100)
+yplot = np.linspace(-1.5*l,1.5*l, 150)
 X, Y = np.meshgrid(xplot, yplot)
 #Convert to polar coordinates
 R, Phi = np.sqrt(X**2 + Y**2), np.arctan2(Y, X)
+
+
+
+
 
 #Custom colormap white-red for PSF
 color_max = 'red'  # Puedes usar códigos hexadecimales o nombres de colores estándar
@@ -104,10 +110,11 @@ custom_cmap = mcolors.LinearSegmentedColormap('custom_colormap', cmap_segments, 
 
 #PLOT 
 ax.scatter(Phi, R, c=Iorb(R, Phi, A, phi, I0, w0, B), marker='o', s=5, cmap = custom_cmap.reversed(), zorder=1)   #PSF   
-ax.scatter(theta, theta*0+A, c=colors, marker='o', s=100, cmap=cm, norm=norm, alpha=1)                          #orbit
-ax.scatter(phi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)                                      #particle
+ax.scatter(theta, theta*0+A, c=colors, marker='o', s=100, cmap=cm, norm=norm, alpha=1)                            #orbit
+ax.scatter(phi, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)                                        #particle
 
-ax.set_ylim(0, l)
+ax.set_ylim(0, l+50)
+
 
 
 # Función llamada al cambiar el valor del slider
@@ -120,7 +127,7 @@ def update(val):
     ax.scatter(Phi, R, c=Iorb(R, Phi, A, phi*np.pi/180, I0, w0, B), marker='o', s=10, cmap = custom_cmap.reversed(), zorder=1)    #PSF
     ax.scatter(theta, theta*0+A, c=colors, marker='o', s=100, cmap=cm, norm=norm, alpha=1)   #orbit
     ax.scatter(phi*np.pi/180, r, color='y', marker='*', s=250, edgecolors='k', zorder=3)     #particle
-    ax.set_ylim(0, l)
+    ax.set_ylim(0, l+50)
     fig.canvas.draw_idle()
     
        
