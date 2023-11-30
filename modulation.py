@@ -43,7 +43,7 @@ x = theta
 y = Iorb(A,theta,r,phi,I0,w0,B)
 
 # ej de funcion facil
-# x = np.linspace(0,1,100)
+# x = np.linspace(0,2*np.pi,100)
 # y = 3 + 1 * np.cos(x) + 3 * np.sin(x) + 5 * np.cos(2*x)
 
 
