@@ -8,7 +8,7 @@ Created on Wed Nov 15 17:25:31 2023
 
 ### Plot intensity traces for multiple particle positions###
 
-import addcopyfighandler
+# import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors

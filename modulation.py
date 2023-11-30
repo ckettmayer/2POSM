@@ -5,7 +5,7 @@ Created on Tue Nov 28 12:50:01 2023
 @author: Constanza
 """
 
-import addcopyfighandler
+# import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -30,41 +30,57 @@ N = 100 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
-r = 50
-phi = np.pi/2
+r = 140
+phi = np.pi
 
 
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 def Iorb(A,theta,r,phi,I0,w0,B):
-    return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
-    # return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
+    # return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
+    return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
 
 x = theta
 y = Iorb(A,theta,r,phi,I0,w0,B)
+
+# ej de funcion facil
+# x = np.linspace(0,1,100)
+# y = 3 + 1 * np.cos(x) + 3 * np.sin(x) + 5 * np.cos(2*x)
+
+
 fft_values = fft(y)
 
-# Obtener los primeros dos términos de la serie de Fourier
-a0 = np.abs(fft_values[0]) / len(x)
-a1 = np.abs(fft_values[1]) / len(x)
-b1 = np.angle(fft_values[1])
+n = 10
+a = np.zeros(n)
+b = np.zeros(n)
 
-# Construir la aproximación de la serie de Fourier con los primeros dos términos
-fourier_approximation = a0  + a1 * np.cos(x) + b1 * np.sin(x)
+# a[0] = fft_values[0].real / len(x)
 
-# Visualizar la función original y la aproximación de la serie de Fourier
+fourier_approx = np.zeros(len(x)) 
+colors = np.linspace(start=50, stop=200, num=n)
+
+f = 1 / (2*np.pi)
+
 plt.figure(figsize=(10, 6))
+plt.plot(x, y, label='original', color= 'grey', linestyle = 'none', marker='.', alpha=1)  
+for i in range(0,n):
+    if i==0:
+        a[i] = fft_values[i].real / len(x)
+        fourier_approx = fourier_approx + a[i]
+    else:    
+        a[i] = 2 * fft_values[i].real / len(x)
+        b[i] = - 2 * fft_values[i].imag / len(x)
+        fourier_approx = fourier_approx + a[i] * np.cos(2*np.pi*i*f *x) + b[i] * np.sin(2*np.pi*i*f*x) 
+    
+    plt.plot(x, fourier_approx, color=plt.cm.plasma(int(colors[i])), alpha=.70)
+    
+    
+plt.legend()
 
-plt.subplot(2, 1, 1)
-plt.plot(x, y, label='Función original')
-plt.title('Función original')
-
-plt.subplot(2, 1, 2)
-plt.plot(x, x*0+fourier_approximation, label='Aproximación de Fourier')
-plt.title('Aproximación de la serie de Fourier (2 términos)')
 
 plt.tight_layout()
 plt.show()
 
 
+#PENDIENTE
+#Ver como varían los primeros coeficientes en función de r y phi para cada haz (y en función de la relación entre A y w0)
     
-plt.plot(theta, Iorb(A,theta,r,phi,I0,w0,B))    
