@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 28 12:50:01 2023
+Created on Fri Dec  1 11:23:06 2023
 
 @author: Constanza
 """
@@ -42,33 +42,35 @@ def Iorb(A,theta,r,phi,I0,w0,B):
 x = theta
 y = Iorb(A,theta,r,phi,I0,w0,B)
 
-# ej de funcion facil
-# x = np.linspace(0,2*np.pi,100)
-# y = 3 + 1 * np.cos(x) + 3 * np.sin(x) + 5 * np.cos(2*x)
 
 
 fft_values = fft(y)
 
+n = 2
+a = np.zeros(n)
+b = np.zeros(n)
 
-a0 = fft_values[0].real / len(x)
 
-a1 = 2 * fft_values[1].real / len(x)
-b1 = - 2 * fft_values[1].imag / len(x)
-
+fourier_approx = np.zeros(len(x)) 
+colors = np.linspace(0.2,0.8, num=n)
 
 f = 1 / (2*np.pi)
-fourier_0 = a0
-fourier_1 = a0 + a1 * np.cos(2*np.pi*f *x) + b1 * np.sin(2*np.pi*f*x) 
 
 plt.figure(figsize=(5, 4))
 plt.plot(x*180/np.pi, y, label='original', color= 'grey', linestyle = 'none', marker='.', alpha=1)  
-plt.plot(x*180/np.pi, x*0+fourier_0, color='r', linestyle='dashed', alpha=.70, label = 'fourier 0 order')
-plt.plot(x*180/np.pi, fourier_1, color='r', alpha=.70, label = 'fourier 1st order')
-plt.xlabel(r'$\theta$ (rad)')
-plt.ylabel(r'I (a.u.)')
-plt.legend()
-plt.tight_layout()
-plt.show()
+for i in range(0,n):
+    if i==0:
+        a[i] = fft_values[i].real / len(x)
+        fourier_approx = fourier_approx + a[i]
+    else:    
+        a[i] = 2 * fft_values[i].real / len(x)
+        b[i] = - 2 * fft_values[i].imag / len(x)
+        fourier_approx = fourier_approx + a[i] * np.cos(2*np.pi*i*f *x) + b[i] * np.sin(2*np.pi*i*f*x) 
+    
+    plt.plot(x*180/np.pi, fourier_approx, color=plt.cm.plasma(colors[i]), alpha=.70)
+    
+    
+
 
 
 
@@ -78,20 +80,12 @@ if Iorb(0,0,0,0,I0,w0,B)>Iorb(0,0,20,0,I0,w0,B):   #para que se fije si estamos 
 else:
     haz = 'Donut' 
 
-plt.title(f'{haz}, I0={I0}, w0={w0}nm, N={N}, A={A}nm, \n r={r}nm, phi={phi*180/np.pi}')
-
+plt.title(f'{haz}, I0={I0}, w0={w0}nm, N={N}, A={A}nm, \n r={r}nm, phi={phi*180/np.pi}, n={n}')
+plt.legend()
 plt.xlim(-10,370)
+plt.ylim(0,1.2)
 plt.xlabel(r'$\theta$ ($^\circ$)')
 plt.ylabel(r'I (a.u.)')
 plt.tight_layout()
 plt.show()
 
-
-
-
-
-
-
-#PENDIENTE
-#Ver como varían los primeros coeficientes en función de r y phi para cada haz (y en función de la relación entre A y w0)
-    

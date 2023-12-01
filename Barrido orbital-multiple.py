@@ -26,7 +26,7 @@ I0 = 1
 w0 = 300
 B = 0
 
-A = 200
+A = 150
 N = 100 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
@@ -37,7 +37,7 @@ l = 150
 
 #Particle positions
 rm = [0, 25, 50, 75, 100]
-phi = np.pi/2
+phi = 3* np.pi/2
 
 
 values = np.linspace(0, 0.8, len(rm))
@@ -145,29 +145,29 @@ fig.suptitle(f'{haz}, w0={w0}nm, A={A}nm, r={rm}nm, N={N}')   # I0={I0},  B={B},
 
 
 
-#%%
-A=300
-#Plot perfiles de intensidad
-fig = plt.figure(figsize=(6, 4))
-rplot = np.linspace(0,A,200)
-plt.plot(rplot, Iorb_gauss(A,0,rplot,0,I0,w0,B), label='gauss', color='r')    #gauss
-plt.plot(rplot, Iorb_donut(A,0,rplot,0,I0,w0,B), label='donut', color='r', linestyle='dashed')    #donut
+# #%%
+# A=300
+# #Plot perfiles de intensidad
+# fig = plt.figure(figsize=(6, 4))
+# rplot = np.linspace(0,A,200)
+# plt.plot(rplot, Iorb_gauss(A,0,rplot,0,I0,w0,B), label='gauss', color='r')    #gauss
+# plt.plot(rplot, Iorb_donut(A,0,rplot,0,I0,w0,B), label='donut', color='r', linestyle='dashed')    #donut
 
-plt.scatter(A, 0, color='k', edgecolors='k', marker='o', s=50, alpha=0.7, zorder=2)       #orbit
-plt.scatter(0, 0, color='k', edgecolors='k', marker='o', s=50, alpha=0.7, zorder=2)       #orbit
+# plt.scatter(A, 0, color='k', edgecolors='k', marker='o', s=50, alpha=0.7, zorder=2)       #orbit
+# plt.scatter(0, 0, color='k', edgecolors='k', marker='o', s=50, alpha=0.7, zorder=2)       #orbit
 
-for i in range(len(rm)):
-    plt.scatter(rm[i], 0, color=c[i], marker='*', s=250, edgecolors='k', zorder=3)           #particle
+# for i in range(len(rm)):
+#     plt.scatter(rm[i], 0, color=c[i], marker='*', s=250, edgecolors='k', zorder=3)           #particle
 
-plt.title(f'I0={I0}, w0={w0}nm, A={A}nm')
-plt.ylabel('I (a.u.)')
-plt.xlabel('r (nm)')
-plt.grid()
-plt.tight_layout()
-plt.legend()
+# plt.title(f'I0={I0}, w0={w0}nm, A={A}nm')
+# plt.ylabel('I (a.u.)')
+# plt.xlabel('r (nm)')
+# plt.grid()
+# plt.tight_layout()
+# plt.legend()
 
 
-# Iorb(A,theta,r,phi,I0,w0,B):
+# # Iorb(A,theta,r,phi,I0,w0,B):
 
 
 
