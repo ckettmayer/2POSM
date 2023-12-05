@@ -30,8 +30,8 @@ N = 100 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
-r = 100
-phi = np.pi/2
+r = 130
+phi = np.pi/3
 
 
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
@@ -46,7 +46,7 @@ y = Iorb(A,theta,r,phi,I0,w0,B)
 
 fft_values = fft(y)
 
-n = 2
+n = 15
 a = np.zeros(n)
 b = np.zeros(n)
 
@@ -60,8 +60,8 @@ plt.figure(figsize=(5, 4))
 plt.plot(x*180/np.pi, y, label='original', color= 'grey', linestyle = 'none', marker='.', alpha=1)  
 for i in range(0,n):
     if i==0:
-        a[i] = fft_values[i].real / len(x)
-        fourier_approx = fourier_approx + a[i]
+        a[i] = 2 * fft_values[i].real / len(x)
+        fourier_approx = fourier_approx + a[i]/2
     else:    
         a[i] = 2 * fft_values[i].real / len(x)
         b[i] = - 2 * fft_values[i].imag / len(x)
@@ -80,7 +80,7 @@ if Iorb(0,0,0,0,I0,w0,B)>Iorb(0,0,20,0,I0,w0,B):   #para que se fije si estamos 
 else:
     haz = 'Donut' 
 
-plt.title(f'{haz}, I0={I0}, w0={w0}nm, N={N}, A={A}nm, \n r={r}nm, phi={phi*180/np.pi}, n={n}')
+plt.title(f'{haz}, I0={I0}, w0={w0}nm, N={N}, A={A}nm, \n r={r}nm, phi={phi*180/np.pi:.2f}, n={n}')
 plt.legend()
 plt.xlim(-10,370)
 plt.ylim(0,1.2)
