@@ -39,8 +39,8 @@ l = 150
 rm = np.array([0, 50, 100, 150])
 phim = np.array([0, np.pi/2, np.pi, 3*np.pi/2])
 
-r = 150
-phi = 3* np.pi/2
+r = 100
+phi = 2 * np.pi/2
 
 
 
@@ -70,7 +70,7 @@ c = cm.plasma(values)
 
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
-psf = 'g'
+psf = 'd'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0,B):
@@ -86,7 +86,9 @@ else:
     
 
 
-fig = plt.figure(figsize=(10,4))
+# fig = plt.figure(figsize=(10,4))
+fig = plt.figure(figsize=(7,3))
+
 gs = fig.add_gridspec(1, 2, width_ratios=[3, 4], hspace=0.5, wspace=0.2)
 
 
@@ -116,8 +118,8 @@ ax1.scatter(Phi, R, c=Iorb(R, Phi, A, phi, I0, w0, B), marker='o', s=5, cmap = c
 ax1.scatter(theta[0:-1], theta[0:-1]*0+A, color='k', edgecolors='k', marker='o', s=50, alpha=0.3, zorder=2)       #orbit
 
 for i in range(len(rm)):
-    # ax1.scatter(phi,rm[i], color=c[i], marker='*', s=250, edgecolors='k', zorder=3)           #particle - multiple r
-    ax1.scatter(phim[i],r, color=c[i], marker='*', s=250, edgecolors='k', zorder=3)           #particle - multiple phi
+    ax1.scatter(phi,rm[i], color=c[i], marker='*', s=250, edgecolors='k', zorder=3)           #particle - multiple r
+    # ax1.scatter(phim[i],r, color=c[i], marker='*', s=250, edgecolors='k', zorder=3)           #particle - multiple phi
 ax1.set_ylim(0, l+50)
 ax1.set_yticks(np.arange(0, 200, 100))
 
@@ -131,8 +133,8 @@ plt.subplots_adjust(top=0.8, bottom=0.2,  right=0.95, hspace=0.9)
 
 for i in range(len(rm)):
     colors = Iorb(A,theta,i,phi,I0,w0,B)
-    # ax2.scatter(theta*180/np.pi, Iorb(A,theta,rm[i],phi,I0,w0,B), color=c[i], marker='o', s=20, zorder=2)  #I(theta) - multiple r
-    ax2.scatter(theta*180/np.pi, Iorb(A,theta,r,phim[i],I0,w0,B), color=c[i], marker='o', s=20, zorder=2)  #I(theta) - multiple phi
+    ax2.scatter(theta*180/np.pi, Iorb(A,theta,rm[i],phi,I0,w0,B), color=c[i], marker='o', s=20, zorder=2)  #I(theta) - multiple r
+    # ax2.scatter(theta*180/np.pi, Iorb(A,theta,r,phim[i],I0,w0,B), color=c[i], marker='o', s=20, zorder=2)  #I(theta) - multiple phi
 
 ax2.set_xlabel(r'$\theta$ ($^o$)')
 ax2.set_ylabel('I (a.u.)')
@@ -153,8 +155,8 @@ else:
      
 phim= phim*180/np.pi
 
-# fig.suptitle(f'{haz}, w0={w0}nm, A={A}nm, r={rm}nm, N={N}')   # I0={I0},  B={B}, $\phi$={phi_pi:.2f}$\pi$rad
-fig.suptitle(f'{haz}, w0={w0}nm, A={A}nm, r={r}nm, phi={phim}º, N={N}') 
+fig.suptitle(f'{haz}, w0={w0}nm, A={A}nm, r={rm}nm, N={N}')   # I0={I0},  B={B}, $\phi$={phi_pi:.2f}$\pi$rad
+# fig.suptitle(f'{haz}, w0={w0}nm, A={A}nm, r={r}nm, phi={phim}º, N={N}') 
 
 
 

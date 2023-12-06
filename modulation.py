@@ -26,7 +26,7 @@ w0 = 300
 B = 0
 
 A = 150
-N = 100 #Cantidad de puntos en la órbita
+N = 1000 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
@@ -38,7 +38,7 @@ phi = np.pi * 3/2
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
 
-psf = 'g'
+psf = 'd'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0,B):
@@ -59,7 +59,9 @@ def fourier_coef(x,y):
     a0 = 2 * fft_values[0].real / len(x)
     a1 = 2 * fft_values[1].real / len(x)
     b1 = - 2 * fft_values[1].imag / len(x)
-    return (a0,a1,b1)
+    a2 = 2 * fft_values[2].real / len(x)
+    b2 = - 2 * fft_values[2].imag / len(x)
+    return (a0,a1,b1,a2,b2)
 
 
 x = theta
@@ -68,52 +70,47 @@ y = Iorb(A,theta,r,phi,I0,w0,B)
 
 #%%
 
-phi = np.pi * (1/2)  
+phi = 4 * np.pi / 2  
 
 # R variation
 rplot = np.linspace(0.1,A,10)
 a0_r = np.zeros(len(rplot))
 a1_r = np.zeros(len(rplot))
 b1_r = np.zeros(len(rplot))
+a2_r = np.zeros(len(rplot))
+b2_r = np.zeros(len(rplot))
 
 for i in range(len(rplot)):
     x = theta
     y = Iorb(A,theta,rplot[i],phi,I0,w0,B) 
-    a0_r[i], a1_r[i], b1_r[i] = fourier_coef(x,y)[0], fourier_coef(x,y)[1], fourier_coef(x,y)[2]
+    a0_r[i], a1_r[i], b1_r[i], a2_r[i], b2_r[i] = fourier_coef(x,y)[0], fourier_coef(x,y)[1], fourier_coef(x,y)[2], fourier_coef(x,y)[3], fourier_coef(x,y)[4]
 
-
-A1 = (a1_r**2+b1_r**2)**(1/2)
 A0 = (a0_r/2)
+A1 = (a1_r**2+b1_r**2)**(1/2)
+A2 = (a2_r**2+b2_r**2)**(1/2)
+
 
 F1 = np.degrees(np.mod(np.arctan2(b1_r, a1_r), 2 * np.pi))
+F1 = np.degrees(np.mod(np.arctan2(b2_r, a2_r), 2 * np.pi))
 
 
     
-plt.figure(figsize=(5, 4))
-# plt.plot(rplot, a0_r, label='a0', color = 'g')
-# plt.plot(rplot, a1_r, label='a1', color = 'r')
-# plt.plot(rplot, a1_r/a0_r, label='a1/a0', color = 'orange')
-# plt.plot(rplot, b1_r, label='b1', color = 'b')
-# plt.plot(rplot, b1_r/a0_r, label='b1/a0', color = 'dodgerblue')
-# plt.plot(rplot, (a1_r+b1_r)/2, label='(a1+b1)/2', color = 'm')
+plt.figure(figsize=(4, 3))
+
 plt.plot(rplot, 100*A1/A0, label='100 * A1/A0', color = 'k', marker='o')
-plt.plot(rplot, F1, label='F1', color = 'grey', marker='s')
+plt.plot(rplot, 100*A2/A0, label='100 * A2/A0', color = 'r', marker='o')
+plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'g', marker='o')
+plt.plot(rplot, 100*(A2+A1)/A0, label='100 * A2/A1', color = 'b', marker='o')
+plt.plot(rplot, 100*(A2**2+A1**2)**(1/2)/A0, label='100 * A2/A1', color = 'purple', marker='o')
 
-print('100*A1/A0_r')
-print(100*A1/A0)
-print('F1_r')
-print(F1)
+# plt.plot(rplot, F1, label='F1', color = 'grey', marker='s')
 
-# plt.plot(rplot, 160*(a1_r**2+b1_r**2)**(1/2)/(a0_r/2), label='A1/A0', color = 'k')
-# plt.plot(rplot, np.degrees(np.mod(np.arctan2(b1_r, a1_r), 2 * np.pi)) , label='theta1', color = 'grey')
-
-# plt.plot(rplot, rplot*0+phi*180/np.pi, color= 'royalblue', label = 'y=phi')
 
 
 plt.legend()
 plt.xlabel('r (nm)')
 plt.ylabel('Fourier coefficient')
-# plt.ylim(-1,1)
+plt.ylim(-10,150)
 # plt.ylim(-0.2,1.8)
 plt.title(f'{haz}, phi = {phi*180/np.pi}'+r'$^\circ$')
 plt.tight_layout()
@@ -121,45 +118,35 @@ plt.tight_layout()
 
 #%%
 
-r = 50 * 2
+r = 50 * 3
 
 # phi variation
 phiplot = np.linspace(0.1,2*np.pi,10)
 a0_phi = np.zeros(len(rplot))
 a1_phi = np.zeros(len(rplot))
 b1_phi = np.zeros(len(rplot))
+a2_phi = np.zeros(len(rplot))
+b2_phi = np.zeros(len(rplot))
 
 for i in range(len(rplot)):
     x = theta
     y = Iorb(A,theta,r,phiplot[i],I0,w0,B) 
-    a0_phi[i], a1_phi[i], b1_phi[i] = fourier_coef(x,y)[0], fourier_coef(x,y)[1], fourier_coef(x,y)[2]
+    a0_phi[i], a1_phi[i], b1_phi[i], a2_phi[i], b2_phi[i] = fourier_coef(x,y)[0], fourier_coef(x,y)[1], fourier_coef(x,y)[2], fourier_coef(x,y)[3], fourier_coef(x,y)[4]
     
-plt.figure(figsize=(5, 4))
-# plt.plot(phiplot*180/np.pi, a0_phi, label='a0', color = 'g')
-# plt.plot(phiplot*180/np.pi, a1_phi, label='a1', color = 'r')
-# plt.plot(phiplot*180/np.pi, a1_phi/a0_phi, label='a1/a0', color = 'orange')
-# plt.plot(phiplot*180/np.pi, b1_phi, label='b1', color = 'b')
-# plt.plot(phiplot*180/np.pi, b1_phi/a0_phi, label='b1/a0', color = 'dodgerblue')
-# plt.plot(phiplot*180/np.pi, (a1_phi+b1_phi)/2, label='(a1+b1)/2', color = 'm')
+plt.figure(figsize=(4, 3))
 
-
-A1 = (a1_phi**2+b1_phi**2)**(1/2)
 A0 = (a0_phi/2)
+A1 = (a1_phi**2+b1_phi**2)**(1/2)
+A2 = (a2_phi**2+b2_phi**2)**(1/2)
 
-F1 = np.degrees(np.mod(np.arctan2(b1_phi, a1_phi), 2 * np.pi))
+F1 = np.degrees(np.mod(np.arctan2(-b1_phi, -a1_phi), 2 * np.pi))
+F2 = np.degrees(np.mod(np.arctan2(-b2_phi, -a2_phi), 2 * np.pi))
 
 
-plt.plot(phiplot*180/np.pi, 100*A1/A0, label='100*A1/A0', color = 'k', marker='o')
+# plt.plot(phiplot*180/np.pi, 100*A1/A0, label='100*A1/A0', color = 'k', marker='o')
 plt.plot(phiplot*180/np.pi, F1, label='F1', color = 'grey', marker='s')
+plt.plot(phiplot*180/np.pi, F2, label='F2', color = 'tomato', marker='s')
 
-# plt.plot(phiplot*180/np.pi, phiplot*0+r , label = 'y=r', color= 'tomato', zorder = 4)
-# plt.plot(phiplot*180/np.pi, phiplot*180/np.pi , label = 'y=x', color= 'royalblue', zorder = 4)
-
-
-print('100*A1/A0_phi')
-print(100*A1/A0)
-print('F1_phi')
-print(F1)
 
 
 plt.legend()
@@ -174,8 +161,3 @@ plt.show(block=False)
 
 
 
-
-
-#PENDIENTE
-#Ver como varían los primeros coeficientes en función de r y phi para cada haz (y en función de la relación entre A y w0)
-    

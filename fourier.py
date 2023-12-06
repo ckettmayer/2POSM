@@ -31,7 +31,7 @@ theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
 r = 130
-phi = np.pi/3
+phi = np.pi/2
 
 
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
@@ -46,7 +46,7 @@ y = Iorb(A,theta,r,phi,I0,w0,B)
 
 fft_values = fft(y)
 
-n = 15
+n = 4
 a = np.zeros(n)
 b = np.zeros(n)
 
