@@ -2,7 +2,7 @@
 """
 Created on Tue Nov 28 12:50:01 2023
 
-@author: Constanza
+@author: ckettmayer
 """
 
 import addcopyfighandler
@@ -26,12 +26,12 @@ w0 = 300
 B = 0
 
 A = 150
-N = 1000 #Cantidad de puntos en la órbita
+N = 2000 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
-r = 100
-phi = np.pi * 3/2
+r = 25
+phi = np.pi * 1/2
 
 
 
@@ -68,9 +68,38 @@ x = theta
 y = Iorb(A,theta,r,phi,I0,w0,B)
 
 
+
+a0, a1, b1, a2, b2 = fourier_coef(x,y)[0], fourier_coef(x,y)[1], fourier_coef(x,y)[2], fourier_coef(x,y)[3], fourier_coef(x,y)[4]
+A0 = (a0/2)
+A1 = (a1**2+b1**2)**(1/2)
+A2 = (a2**2+b2**2)**(1/2)
+
+F1 = np.mod(np.arctan2(b1, a1), 2 * np.pi)
+F2 = np.mod(np.arctan2(b2, a2), 2 * np.pi)
+
+
+t0 = A0
+t1 = A1 * np.cos(x - F1)  
+t2 = A2 * np.cos(2 * x - F2)
+
+plt.figure(figsize=(4, 3))
+plt.plot(x,y, label= 'original', color='k')
+plt.plot(x,x*0+t0, label = 't0')
+plt.plot(x,t0+t1, label = 't0+t1', color='b')
+plt.plot(x,t0+t2, label = 't0+t2', color = 'r')
+plt.plot(x,t0+t1+t2, label = 't0+t1+t2', color = 'g')
+plt.legend()
+plt.ylim(-0.1,1.3)
+plt.title(f'r={r}nm')
+
+
+
+
+
+
 #%%
 
-phi = 4 * np.pi / 2  
+phi = 1 * np.pi / 2  
 
 # R variation
 rplot = np.linspace(0.1,A,10)
@@ -79,6 +108,9 @@ a1_r = np.zeros(len(rplot))
 b1_r = np.zeros(len(rplot))
 a2_r = np.zeros(len(rplot))
 b2_r = np.zeros(len(rplot))
+
+
+
 
 for i in range(len(rplot)):
     x = theta
@@ -90,27 +122,27 @@ A1 = (a1_r**2+b1_r**2)**(1/2)
 A2 = (a2_r**2+b2_r**2)**(1/2)
 
 
-F1 = np.degrees(np.mod(np.arctan2(b1_r, a1_r), 2 * np.pi))
-F1 = np.degrees(np.mod(np.arctan2(b2_r, a2_r), 2 * np.pi))
+F1 = np.degrees(np.mod(np.arctan2(-b1_r, -a1_r), 2 * np.pi))
+F2 = np.degrees(np.mod(np.arctan2(-b2_r, -a2_r), 2 * np.pi))
 
 
     
 plt.figure(figsize=(4, 3))
 
-plt.plot(rplot, 100*A1/A0, label='100 * A1/A0', color = 'k', marker='o')
+plt.plot(rplot, 100*A1/A0, label='100 * A1/A0', color = 'b', marker='o')
 plt.plot(rplot, 100*A2/A0, label='100 * A2/A0', color = 'r', marker='o')
-plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'g', marker='o')
-plt.plot(rplot, 100*(A2+A1)/A0, label='100 * A2/A1', color = 'b', marker='o')
-plt.plot(rplot, 100*(A2**2+A1**2)**(1/2)/A0, label='100 * A2/A1', color = 'purple', marker='o')
+plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'm', marker='o')
+plt.plot(rplot, 100*(A2+A1)/A0, label='100 * (A1+A2)/A0', color = 'orange', marker='o')
 
-# plt.plot(rplot, F1, label='F1', color = 'grey', marker='s')
+plt.plot(rplot, F1, label='F1', color = 'grey', marker='s')
+plt.plot(rplot, F2, label='F2', color = 'tomato', marker='s')
 
 
 
-plt.legend()
+# plt.legend()
 plt.xlabel('r (nm)')
 plt.ylabel('Fourier coefficient')
-plt.ylim(-10,150)
+# plt.ylim(-10,150)
 # plt.ylim(-0.2,1.8)
 plt.title(f'{haz}, phi = {phi*180/np.pi}'+r'$^\circ$')
 plt.tight_layout()
@@ -143,9 +175,9 @@ F1 = np.degrees(np.mod(np.arctan2(-b1_phi, -a1_phi), 2 * np.pi))
 F2 = np.degrees(np.mod(np.arctan2(-b2_phi, -a2_phi), 2 * np.pi))
 
 
-# plt.plot(phiplot*180/np.pi, 100*A1/A0, label='100*A1/A0', color = 'k', marker='o')
-plt.plot(phiplot*180/np.pi, F1, label='F1', color = 'grey', marker='s')
-plt.plot(phiplot*180/np.pi, F2, label='F2', color = 'tomato', marker='s')
+plt.plot(phiplot*180/np.pi, 100*A2/A0, label='100*A2/A0', color = 'k', marker='o')
+# plt.plot(phiplot*180/np.pi, F1, label='F1', color = 'grey', marker='s')
+# plt.plot(phiplot*180/np.pi, F2, label='F2', color = 'tomato', marker='s')
 
 
 

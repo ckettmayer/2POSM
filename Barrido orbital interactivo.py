@@ -99,7 +99,7 @@ R, Phi = np.sqrt(X**2 + Y**2), np.arctan2(Y, X)
 
 
 #Custom colormap white-red for PSF
-color_max = 'red'  # Puedes usar códigos hexadecimales o nombres de colores estándar
+color_max = 'red'  
 color_min = 'white'
 cmap_segments = {
     'red': [(0.0, 1.0, 1.0), (1.0, 1.0, 1.0)],  # Rojo a Blanco en el canal red
