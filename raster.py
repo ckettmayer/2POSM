@@ -6,7 +6,7 @@ Created on Thu Dec  7 16:12:28 2023
 """
 
 
-import addcopyfighandler
+# import addcopyfighandler
 from matplotlib.widgets import Slider
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,6 +17,7 @@ import matplotlib.colors as mcolors
 #I con haz gaussiano
 def Iorb_gauss(xs,ys,x,y,I0,w0):
     return(I0*np.exp(-(2/w0**2)*((x-xs)**2+(y-ys)**2)))
+    
 
 #I con haz donut
 def Iorb_donut(xs,ys,x,y,I0,w0):
@@ -25,8 +26,8 @@ def Iorb_donut(xs,ys,x,y,I0,w0):
 
 
 def Iorb(xs,ys,x,y,I0,w0):
-    # return Iorb_gauss(xs,ys,x,y,I0,w0)         #haz gaussiano con máximo central
-    return Iorb_donut(xs,ys,x,y,I0,w0)       #haz donut con mínimo central
+    return Iorb_gauss(xs,ys,x,y,I0,w0)         #haz gaussiano con máximo central
+    # return Iorb_donut(xs,ys,x,y,I0,w0)       #haz donut con mínimo central
 
 
 I0 = 1
@@ -124,16 +125,44 @@ ax2.set_aspect('equal')
 
 # Crea la animación
 animation = FuncAnimation(fig, update, frames=100, interval=500)
-# animation.save('mi_animacion.gif', writer='pillow', fps=30)
+# animation.save('raster_donut.gif', writer='pillow', fps=3)
 
 # Muestra la animación
 plt.show()
 
 
+#%%
+
+fig2, (ax1, ax2)  = plt.subplots(1,2,figsize=(8, 4))
+
+xpsf = 100
+ypsf = 250
+
+xp = 250     #250   #200   #150
+yp = 250
 
 
+# ax1.scatter(X, Y, c=Iorb(xpsf,ypsf,X,Y,I0,w0), marker='o', s=10, cmap = custom_cmap.reversed(), zorder=1) 
+ax1.scatter(xp, yp, color='y', marker='*', s=500, edgecolors='k', zorder=3)   
 
 
+ax2.scatter(xpsf, ypsf, c=Iorb(xpsf,ypsf,xp,yp,I0,w0), cmap = cm, norm = norm, marker='s', s=1050)
+
+
+ax1.set_ylim(0,A)
+ax1.set_xlim(0,A)
+ax2.set_ylim(-30,A+30)
+ax2.set_xlim(-30,A+30)
+ax1.set_xticks([])
+ax1.set_yticks([])
+ax2.set_xticks([])
+ax2.set_yticks([])
+
+
+ax1.set_aspect('equal')
+ax2.set_aspect('equal')
+
+plt.show()
 
 
 

@@ -1,0 +1,3 @@
+([('Barrido_orbital_interactivo',
+   '/Users/constanza/GitHub/2POSM/dist/Barrido_orbital_interactivo',
+   'EXECUTABLE')],)

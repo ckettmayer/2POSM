@@ -8,7 +8,7 @@ Created on Wed Nov 15 17:25:31 2023
 
 ### Plot intensity traces for multiple particle positions###
 
-import addcopyfighandler
+# import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -40,7 +40,7 @@ rm = np.array([0, 50, 100, 150])
 phim = np.array([0, np.pi/2, np.pi, 3*np.pi/2])
 
 r = 100
-phi = 2 * np.pi/2
+phi = 1 * np.pi/2
 
 
 
@@ -86,8 +86,8 @@ else:
     
 
 
-# fig = plt.figure(figsize=(10,4))
-fig = plt.figure(figsize=(7,3))
+fig = plt.figure(figsize=(10,4))
+# fig = plt.figure(figsize=(7,3))
 
 gs = fig.add_gridspec(1, 2, width_ratios=[3, 4], hspace=0.5, wspace=0.2)
 
