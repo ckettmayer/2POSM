@@ -38,7 +38,7 @@ phi = np.pi * 1/2
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
 
-psf = 'd'
+psf = 'g'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0,B):
@@ -82,6 +82,11 @@ t0 = A0
 t1 = A1 * np.cos(x - F1)  
 t2 = A2 * np.cos(2 * x - F2)
 
+
+#%%
+
+#Fourier
+
 plt.figure(figsize=(4, 3))
 plt.plot(x,y, label= 'original', color='k')
 plt.plot(x,x*0+t0, label = 't0')
@@ -99,10 +104,12 @@ plt.title(f'r={r}nm')
 
 #%%
 
+
+
 phi = 1 * np.pi / 2  
 
 # R variation
-rplot = np.linspace(0.1,A,10)
+rplot = np.linspace(0.1,1*A,10)
 a0_r = np.zeros(len(rplot))
 a1_r = np.zeros(len(rplot))
 b1_r = np.zeros(len(rplot))
@@ -122,29 +129,31 @@ A1 = (a1_r**2+b1_r**2)**(1/2)
 A2 = (a2_r**2+b2_r**2)**(1/2)
 
 
-F1 = np.degrees(np.mod(np.arctan2(-b1_r, -a1_r), 2 * np.pi))
+F1_gauss = np.degrees(np.mod(np.arctan2(b1_r, a1_r), 2 * np.pi))
+F1_donut = np.degrees(np.mod(np.arctan2(-b1_r, -a1_r), 2 * np.pi))
 F2 = np.degrees(np.mod(np.arctan2(-b2_r, -a2_r), 2 * np.pi))
 
 
     
 plt.figure(figsize=(4, 3))
 
-plt.plot(rplot, 100*A1/A0, label='100 * A1/A0', color = 'b', marker='o')
-plt.plot(rplot, 100*A2/A0, label='100 * A2/A0', color = 'r', marker='o')
-plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'm', marker='o')
-plt.plot(rplot, 100*(A2+A1)/A0, label='100 * (A1+A2)/A0', color = 'orange', marker='o')
+plt.plot(rplot, A*A1/A0, label='A*A1/A0', color = 'k', marker='o')
+# plt.plot(rplot, 100*A2/A0, label='100 * A2/A0', color = 'r', marker='o')
+# plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'm', marker='o')
+# plt.plot(rplot, 100*(A2+A1)/A0, label='100 * (A1+A2)/A0', color = 'orange', marker='o')
 
-plt.plot(rplot, F1, label='F1', color = 'grey', marker='s')
-plt.plot(rplot, F2, label='F2', color = 'tomato', marker='s')
+plt.plot(rplot, F1_gauss, label='F1', color = 'grey', marker='s')
+# plt.plot(rplot, F1_donut, label='F1', color = 'grey', marker='s')
+# plt.plot(rplot, F2, label='F2', color = 'tomato', marker='s')
 
+plt.plot(rplot,rplot, color='r', label = 'y=x')
 
-
-# plt.legend()
+plt.legend()
 plt.xlabel('r (nm)')
 plt.ylabel('Fourier coefficient')
 # plt.ylim(-10,150)
 # plt.ylim(-0.2,1.8)
-plt.title(f'{haz}, phi = {phi*180/np.pi}'+r'$^\circ$')
+plt.title(f'{haz}, phi = {phi*180/np.pi}'+r'$^\circ$'+f', w0={w0}, A={A}')
 plt.tight_layout()
 
 
@@ -171,15 +180,19 @@ A0 = (a0_phi/2)
 A1 = (a1_phi**2+b1_phi**2)**(1/2)
 A2 = (a2_phi**2+b2_phi**2)**(1/2)
 
-F1 = np.degrees(np.mod(np.arctan2(-b1_phi, -a1_phi), 2 * np.pi))
+F1_gauss = np.degrees(np.mod(np.arctan2(b1_phi, a1_phi), 2 * np.pi))
+F1_donut = np.degrees(np.mod(np.arctan2(-b1_phi, -a1_phi), 2 * np.pi))
 F2 = np.degrees(np.mod(np.arctan2(-b2_phi, -a2_phi), 2 * np.pi))
 
 
-plt.plot(phiplot*180/np.pi, 100*A2/A0, label='100*A2/A0', color = 'k', marker='o')
-# plt.plot(phiplot*180/np.pi, F1, label='F1', color = 'grey', marker='s')
+plt.plot(phiplot*180/np.pi, A*A1/A0, label='A*A1/A0', color = 'k', marker='o')
+
+plt.plot(phiplot*180/np.pi, F1_gauss, label='F1', color = 'grey', marker='s')
+# plt.plot(phiplot*180/np.pi, F1_donut, label='F1', color = 'grey', marker='s')
 # plt.plot(phiplot*180/np.pi, F2, label='F2', color = 'tomato', marker='s')
 
 
+plt.plot(phiplot*180/np.pi,phiplot*180/np.pi, color='r', label = 'y=x')
 
 plt.legend()
 plt.xlabel(r'phi ($^\circ$)')

@@ -124,7 +124,7 @@ ax2.set_aspect('equal')
 
 # Crea la animación
 animation = FuncAnimation(fig, update, frames=100, interval=500)
-animation.save('mi_animacion_gauss.gif', writer='pillow', fps=30)
+# animation.save('mi_animacion_gauss.gif', writer='pillow', fps=30)
 
 # Muestra la animación
 plt.show()
