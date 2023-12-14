@@ -25,8 +25,8 @@ def Iorb_donut(xs,ys,x,y,I0,w0):
 
 
 def Iorb(xs,ys,x,y,I0,w0):
-    # return Iorb_gauss(xs,ys,x,y,I0,w0)         #haz gaussiano con máximo central
-    return Iorb_donut(xs,ys,x,y,I0,w0)       #haz donut con mínimo central
+    return Iorb_gauss(xs,ys,x,y,I0,w0)         #haz gaussiano con máximo central
+    # return Iorb_donut(xs,ys,x,y,I0,w0)       #haz donut con mínimo central
 
 
 I0 = 1
@@ -124,7 +124,7 @@ ax2.set_aspect('equal')
 
 # Crea la animación
 animation = FuncAnimation(fig, update, frames=100, interval=500)
-# animation.save('mi_animacion.gif', writer='pillow', fps=30)
+animation.save('mi_animacion_gauss.gif', writer='pillow', fps=30)
 
 # Muestra la animación
 plt.show()
