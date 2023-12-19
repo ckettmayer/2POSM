@@ -5,7 +5,7 @@ Created on Wed Nov 15 17:25:31 2023
 @author: ckettmayer
 """
 
-import addcopyfighandler
+# import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -28,7 +28,7 @@ N = 100 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
-r = 25
+r = 100
 phi = np.pi/2
 
 
@@ -80,7 +80,7 @@ ax2.grid()
 ax2.scatter(theta*180/np.pi, Iorb(A,theta,r,phi,I0,w0,B), c=colors, marker='o', s=100, cmap=cm, norm=norm)
 
 # ax2.scatter(phi,0, color='y', marker='*', s=250, edgecolors='k', zorder=3)
-ax2.set_xlabel(r'$\theta$ (rº)')
+ax2.set_xlabel(r'$\theta$ ($^{\circ}$)')
 ax2.set_ylabel('I (a.u.)')
 ax2.set_ylim(0, I0+0.1*I0)
 # ax2.set_ylim(0.7, 0.9)

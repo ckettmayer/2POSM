@@ -34,13 +34,13 @@ theta = np.linspace(0, 2*np.pi, N)
 r = 0.1
 phi = np.pi/2   #Theta and phi variables are stored in radians, but are plotted in degrees
 
-l = 300         #max particle distance from origin
+l = 150         #max particle distance from origin
 
 
 #%%
 
-# psf plot
-# fig = plt.figure(figsize=(5, 5))
+# #psf plot
+# fig = plt.figure(figsize=(5, 3))
 # rplot = np.linspace(-2*w0,2*w0,100)
 # plt.plot(rplot, Iorb_gauss(rplot,0,0,0,I0,w0,B), label='gauss')
 # plt.plot(rplot, Iorb_donut(rplot,0,0,0,I0,w0,B), label='donut')
@@ -49,6 +49,7 @@ l = 300         #max particle distance from origin
 # plt.xlabel('x (nm)')
 # plt.grid()
 # plt.legend()
+# plt.tight_layout()
     
 
 
@@ -149,6 +150,8 @@ else:
     haz = 'Haz donut (min central)'
        
 fig.suptitle(f'{haz} \n I0={I0}, w0={w0}nm, B={B}, N={N}, A={A}nm')
+
+
 
 
 
