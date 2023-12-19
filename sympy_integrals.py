@@ -4,8 +4,8 @@ Created on Tue Dec 19 14:41:45 2023
 
 @author: ckettmayer
 """
-import numpy as np
-from sympy import symbols, integrate, exp, sin, cos, pi, latex, init_printing
+
+from sympy import symbols, integrate, exp, sin, cos, pi, latex, init_printing, simplify
 from IPython.display import display
 
 
@@ -21,7 +21,11 @@ f = I0 * exp(-(2/w0**2)*(A**2 + r**2 - 2*A*r*cos(theta-phi)))
 # Calcular la integral indefinida
 integral_result = integrate(f, theta)
 
+definite_integral_result = integrate(f, (theta, 0, 2*pi))
+
+
 # Imprimir el resultado de la integral indefinida directamente en Spyder
 print(integral_result)
-display(f)
-display(integral_result)
+
+simple = simplify(definite_integral_result)
+display(simple)
