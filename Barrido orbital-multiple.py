@@ -15,12 +15,12 @@ import matplotlib.colors as mcolors
 import matplotlib.cm as cm
 
 #I con haz gaussiano
-def Iorb_gauss(A,theta,r,phi,I0,w0,B):
-    return(I0*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi)))+B)
+def Iorb_gauss(A,theta,r,phi,I0,w0):
+    return(I0*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi))))
 
 #I con haz donut
-def Iorb_donut(A,theta,r,phi,I0,w0,B):
-    return(I0*2*np.e*(A**2+r**2-2*A*r*np.cos(theta-phi))/(w0**2)*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi)))+B)
+def Iorb_donut(A,theta,r,phi,I0,w0):
+    return(I0*2*np.e*(A**2+r**2-2*A*r*np.cos(theta-phi))/(w0**2)*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi))))
 
 I0 = 1
 w0 = 300

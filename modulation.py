@@ -26,7 +26,7 @@ w0 = 300
 B = 0
 
 A = 150
-N = 2000 #Cantidad de puntos en la órbita
+N = 100 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
@@ -104,12 +104,12 @@ plt.title(f'r={r}nm')
 
 #%%
 
-
+A= 600
 
 phi = 1 * np.pi / 2  
 
 # R variation
-rplot = np.linspace(0.1,1*A,10)
+rplot = np.linspace(0.1,600,10)
 a0_r = np.zeros(len(rplot))
 a1_r = np.zeros(len(rplot))
 b1_r = np.zeros(len(rplot))
@@ -137,22 +137,25 @@ F2 = np.degrees(np.mod(np.arctan2(-b2_r, -a2_r), 2 * np.pi))
     
 plt.figure(figsize=(4, 3))
 
-plt.plot(rplot, A*A1/A0, label='A*A1/A0', color = 'k', marker='o')
+plt.plot(rplot, A1/A0, label='A1/A0', color = 'k', marker='o')
 # plt.plot(rplot, 100*A2/A0, label='100 * A2/A0', color = 'r', marker='o')
 # plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'm', marker='o')
 # plt.plot(rplot, 100*(A2+A1)/A0, label='100 * (A1+A2)/A0', color = 'orange', marker='o')
 
-plt.plot(rplot, F1_gauss, label='F1', color = 'grey', marker='s')
+# plt.plot(rplot, F1_gauss, label='F1', color = 'grey', marker='s')
+
 # plt.plot(rplot, F1_donut, label='F1', color = 'grey', marker='s')
 # plt.plot(rplot, F2, label='F2', color = 'tomato', marker='s')
 
-plt.plot(rplot,rplot, color='r', label = 'y=x')
+# plt.plot(rplot,rplot, color='r', label = 'y=x')
+
+plt.fill_between(rplot, -0.2, 2, where=rplot < A, alpha=0.5, label = 'inside of orbit')
 
 plt.legend()
 plt.xlabel('r (nm)')
 plt.ylabel('Fourier coefficient')
 # plt.ylim(-10,150)
-# plt.ylim(-0.2,1.8)
+plt.ylim(-0.2,2)
 plt.title(f'{haz}, phi = {phi*180/np.pi}'+r'$^\circ$'+f', w0={w0}, A={A}')
 plt.tight_layout()
 
