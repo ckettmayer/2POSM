@@ -14,23 +14,23 @@ from scipy.fft import fft
 
 
 #I con haz gaussiano
-def Iorb_gauss(A,theta,r,phi,I0,w0,B):
-    return(I0*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi)))+B)
+def Iorb_gauss(A,theta,r,phi,I0,w0):
+    return(I0*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi))))
 
 #I con haz donut
-def Iorb_donut(A,theta,r,phi,I0,w0,B):
-    return(I0*2*np.e*(A**2+r**2-2*A*r*np.cos(theta-phi))/(w0**2)*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi)))+B)
+def Iorb_donut(A,theta,r,phi,I0,w0):
+    return(I0*2*np.e*(A**2+r**2-2*A*r*np.cos(theta-phi))/(w0**2)*np.exp(-(2/w0**2)*(A**2+r**2-2*A*r*np.cos(theta-phi))))
 
 I0 = 1
 w0 = 300
 B = 0
 
 A = 150
-N = 100 #Cantidad de puntos en la órbita
+N = 1000 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
-r = 25
+r = 300
 phi = np.pi * 1/2
 
 
@@ -38,16 +38,16 @@ phi = np.pi * 1/2
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
 
-psf = 'g'
+psf = 'd'
 
 if psf == 'g':
-    def Iorb(A,theta,r,phi,I0,w0,B):
-        return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
+    def Iorb(A,theta,r,phi,I0,w0):
+        return Iorb_gauss(A,theta,r,phi,I0,w0)          #haz gaussiano con máximo central
 if psf == 'd':
-    def Iorb(A,theta,r,phi,I0,w0,B):
-        return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central      
+    def Iorb(A,theta,r,phi,I0,w0):
+        return Iorb_donut(A,theta,r,phi,I0,w0)        #haz donut con mínimo central      
 
-if Iorb(0,0,0,0,I0,w0,B)>Iorb(0,0,20,0,I0,w0,B):   #para que se fije si estamos graficando gauss o donut
+if Iorb(0,0,0,0,I0,w0)>Iorb(0,0,20,0,I0,w0):   #para que se fije si estamos graficando gauss o donut
     haz = 'Gauss'
 else:
     haz = 'Donut' 
@@ -65,7 +65,7 @@ def fourier_coef(x,y):
 
 
 x = theta
-y = Iorb(A,theta,r,phi,I0,w0,B)
+y = Iorb(A,theta,r,phi,I0,w0)
 
 
 
@@ -104,12 +104,12 @@ plt.title(f'r={r}nm')
 
 #%%
 
-A= 600
+
 
 phi = 1 * np.pi / 2  
 
 # R variation
-rplot = np.linspace(0.1,600,10)
+rplot = np.linspace(0.1,6*A,100)
 a0_r = np.zeros(len(rplot))
 a1_r = np.zeros(len(rplot))
 b1_r = np.zeros(len(rplot))
@@ -121,7 +121,7 @@ b2_r = np.zeros(len(rplot))
 
 for i in range(len(rplot)):
     x = theta
-    y = Iorb(A,theta,rplot[i],phi,I0,w0,B) 
+    y = Iorb(A,theta,rplot[i],phi,I0,w0) 
     a0_r[i], a1_r[i], b1_r[i], a2_r[i], b2_r[i] = fourier_coef(x,y)[0], fourier_coef(x,y)[1], fourier_coef(x,y)[2], fourier_coef(x,y)[3], fourier_coef(x,y)[4]
 
 A0 = (a0_r/2)
@@ -137,25 +137,25 @@ F2 = np.degrees(np.mod(np.arctan2(-b2_r, -a2_r), 2 * np.pi))
     
 plt.figure(figsize=(4, 3))
 
-plt.plot(rplot, A1/A0, label='A1/A0', color = 'k', marker='o')
-# plt.plot(rplot, 100*A2/A0, label='100 * A2/A0', color = 'r', marker='o')
-# plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'm', marker='o')
-# plt.plot(rplot, 100*(A2+A1)/A0, label='100 * (A1+A2)/A0', color = 'orange', marker='o')
+plt.plot(rplot, A*A1/A0, label='A*A1/A0', color = 'k', marker='.')
+plt.plot(rplot, 100*A2/A0, label='100 * A2/A0', color = 'r', marker='.')
+plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'm', marker='.')
+plt.plot(rplot, 100*(A2+A1)/A0, label='100 * (A1+A2)/A0', color = 'orange', marker='.')
 
 # plt.plot(rplot, F1_gauss, label='F1', color = 'grey', marker='s')
 
 # plt.plot(rplot, F1_donut, label='F1', color = 'grey', marker='s')
 # plt.plot(rplot, F2, label='F2', color = 'tomato', marker='s')
 
-# plt.plot(rplot,rplot, color='r', label = 'y=x')
+plt.plot(rplot,rplot, color='r', label = 'y=x')
 
-plt.fill_between(rplot, -0.2, 2, where=rplot < A, alpha=0.5, label = 'inside of orbit')
+# plt.fill_between(rplot, -0.2, 2, where=rplot < A, alpha=0.5, label = 'inside of orbit')
 
 plt.legend()
 plt.xlabel('r (nm)')
 plt.ylabel('Fourier coefficient')
 # plt.ylim(-10,150)
-plt.ylim(-0.2,2)
+# plt.ylim(-0.2,2)
 plt.title(f'{haz}, phi = {phi*180/np.pi}'+r'$^\circ$'+f', w0={w0}, A={A}')
 plt.tight_layout()
 
@@ -165,7 +165,7 @@ plt.tight_layout()
 r = 50 * 3
 
 # phi variation
-phiplot = np.linspace(0.1,2*np.pi,10)
+phiplot = np.linspace(0.1,2*np.pi,100)
 a0_phi = np.zeros(len(rplot))
 a1_phi = np.zeros(len(rplot))
 b1_phi = np.zeros(len(rplot))
@@ -174,7 +174,7 @@ b2_phi = np.zeros(len(rplot))
 
 for i in range(len(rplot)):
     x = theta
-    y = Iorb(A,theta,r,phiplot[i],I0,w0,B) 
+    y = Iorb(A,theta,r,phiplot[i],I0,w0) 
     a0_phi[i], a1_phi[i], b1_phi[i], a2_phi[i], b2_phi[i] = fourier_coef(x,y)[0], fourier_coef(x,y)[1], fourier_coef(x,y)[2], fourier_coef(x,y)[3], fourier_coef(x,y)[4]
     
 plt.figure(figsize=(4, 3))

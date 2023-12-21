@@ -16,7 +16,10 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 
-im = Image.open('part_300nm.tif')   
+# im = Image.open('orden1_continuo.tif')   
+# 
+im = Image.open('part_300nm.tif')  
+
 plt.imshow(im)
 plt.title('Original Image')
 
