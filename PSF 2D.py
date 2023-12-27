@@ -14,16 +14,26 @@ import matplotlib as mpl
 import cmasher as cmr
 
 
-def I_gausslorXY(x,y,xs,ys,I0,w):
-    return ((2*I0) / (np.pi) * np.exp(- 2*((x-xs)**2+(y-ys)**2)/(w**2))) 
+
+def I_gauss(x,y,xs,ys,I0,w0):
+    return ((I0) * np.exp(- 2*((x-xs)**2+(y-ys)**2)/(w0**2))) 
+
+
+def I_donut(x,y,xs,ys,I0,w0):
+    return ((I0) * np.e * 2*((x-xs)**2+(y-ys)**2)/(w0**2)  * np.exp(- 2*((x-xs)**2+(y-ys)**2)/(w0**2))) 
+
+
+
+
+
 
 xs, ys = 0, 0  #scanner centrado
 I0 = 1
-w = 300
+w0 = 300
  
 #plot del volumen de excitación 3D
 N = 100
-s = 2*w
+s = 2*w0
 
 # Genera datos para x, y, z
 x = np.linspace(-s, s, N)
@@ -31,7 +41,8 @@ y = np.linspace(-s, s, N)
 
 
 X, Y = np.meshgrid(x, y)
-I = I_gausslorXY(X,Y,xs,ys,I0,w)
+# I = I_gauss(X,Y,xs,ys,I0,w0)
+I = I_donut(X,Y,xs,ys,I0,w0)
 
 fig = plt.figure(figsize=(8, 6))
 ax3d = plt.axes(projection="3d")

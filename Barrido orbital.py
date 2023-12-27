@@ -28,7 +28,7 @@ N = 100 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
-r = 100
+r = 250
 phi = np.pi/2
 
 
@@ -37,8 +37,8 @@ phi = np.pi/2
 
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 def Iorb(A,theta,r,phi,I0,w0,B):
-    return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
-    # return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
+    # return Iorb_gauss(A,theta,r,phi,I0,w0,B)          #haz gaussiano con máximo central
+    return Iorb_donut(A,theta,r,phi,I0,w0,B)        #haz donut con mínimo central
 
 
 colors = Iorb(A,theta,r,phi,I0,w0,B)

@@ -30,7 +30,7 @@ N = 1000 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
 #POSICION DE LA PARTÍCULA
-r = 300
+r = 50
 phi = np.pi * 1/2
 
 
@@ -38,7 +38,7 @@ phi = np.pi * 1/2
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
 
-psf = 'd'
+psf = 'g'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0):
@@ -105,11 +105,11 @@ plt.title(f'r={r}nm')
 #%%
 
 
-
+A=200
 phi = 1 * np.pi / 2  
 
 # R variation
-rplot = np.linspace(0.1,6*A,100)
+rplot = np.linspace(0.1,600,100)
 a0_r = np.zeros(len(rplot))
 a1_r = np.zeros(len(rplot))
 b1_r = np.zeros(len(rplot))
@@ -137,25 +137,25 @@ F2 = np.degrees(np.mod(np.arctan2(-b2_r, -a2_r), 2 * np.pi))
     
 plt.figure(figsize=(4, 3))
 
-plt.plot(rplot, A*A1/A0, label='A*A1/A0', color = 'k', marker='.')
-plt.plot(rplot, 100*A2/A0, label='100 * A2/A0', color = 'r', marker='.')
-plt.plot(rplot, 100*A2/A1, label='100 * A2/A1', color = 'm', marker='.')
-plt.plot(rplot, 100*(A2+A1)/A0, label='100 * (A1+A2)/A0', color = 'orange', marker='.')
+plt.plot(rplot, A1/A0, label='A1/A0', color = 'b', marker='.')
+# plt.plot(rplot, A*A2/A0, label='A * A2/A0', color = 'r', marker='.')
+# plt.plot(rplot, A*A2/A1, label='A * A2/A1', color = 'm', marker='.')
+# plt.plot(rplot, A*(A2+A1)/A0, label='A * (A1+A2)/A0', color = 'orange', marker='.')
 
 # plt.plot(rplot, F1_gauss, label='F1', color = 'grey', marker='s')
 
 # plt.plot(rplot, F1_donut, label='F1', color = 'grey', marker='s')
 # plt.plot(rplot, F2, label='F2', color = 'tomato', marker='s')
 
-plt.plot(rplot,rplot, color='r', label = 'y=x')
+# plt.plot(rplot,rplot, color='r', label = 'y=x')
 
-# plt.fill_between(rplot, -0.2, 2, where=rplot < A, alpha=0.5, label = 'inside of orbit')
+# plt.fill_between(rplot, -0.2, 2000, where=rplot < A, alpha=0.5, label = 'inside of orbit')
 
-plt.legend()
+plt.legend(loc='upper right')
 plt.xlabel('r (nm)')
 plt.ylabel('Fourier coefficient')
 # plt.ylim(-10,150)
-# plt.ylim(-0.2,2)
+# plt.ylim(-10,400)
 plt.title(f'{haz}, phi = {phi*180/np.pi}'+r'$^\circ$'+f', w0={w0}, A={A}')
 plt.tight_layout()
 
@@ -188,11 +188,11 @@ F1_donut = np.degrees(np.mod(np.arctan2(-b1_phi, -a1_phi), 2 * np.pi))
 F2 = np.degrees(np.mod(np.arctan2(-b2_phi, -a2_phi), 2 * np.pi))
 
 
-plt.plot(phiplot*180/np.pi, A*A1/A0, label='A*A1/A0', color = 'k', marker='o')
+# plt.plot(phiplot*180/np.pi, A*A1/A0, label='A*A1/A0', color = 'k', marker='o')
 
-plt.plot(phiplot*180/np.pi, F1_gauss, label='F1', color = 'grey', marker='s')
-# plt.plot(phiplot*180/np.pi, F1_donut, label='F1', color = 'grey', marker='s')
-# plt.plot(phiplot*180/np.pi, F2, label='F2', color = 'tomato', marker='s')
+# plt.plot(phiplot*180/np.pi, F1_gauss, label='F1', color = 'grey', marker='s')
+plt.plot(phiplot*180/np.pi, F1_donut, label='F1', color = 'grey', marker='s')
+plt.plot(phiplot*180/np.pi, F2, label='F2', color = 'tomato', marker='s')
 
 
 plt.plot(phiplot*180/np.pi,phiplot*180/np.pi, color='r', label = 'y=x')
