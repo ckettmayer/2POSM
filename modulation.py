@@ -5,7 +5,7 @@ Created on Tue Nov 28 12:50:01 2023
 @author: ckettmayer
 """
 
-import addcopyfighandler
+# import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -38,7 +38,7 @@ phi = np.pi * 1/2
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
 
-psf = 'g'
+psf = 'd'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0):
@@ -87,15 +87,15 @@ t2 = A2 * np.cos(2 * x - F2)
 
 #Fourier
 
-plt.figure(figsize=(4, 3))
-plt.plot(x,y, label= 'original', color='k')
-plt.plot(x,x*0+t0, label = 't0')
-plt.plot(x,t0+t1, label = 't0+t1', color='b')
-plt.plot(x,t0+t2, label = 't0+t2', color = 'r')
-plt.plot(x,t0+t1+t2, label = 't0+t1+t2', color = 'g')
-plt.legend()
-plt.ylim(-0.1,1.3)
-plt.title(f'r={r}nm')
+# plt.figure(figsize=(4, 3))
+# plt.plot(x,y, label= 'original', color='k')
+# plt.plot(x,x*0+t0, label = 't0')
+# plt.plot(x,t0+t1, label = 't0+t1', color='b')
+# plt.plot(x,t0+t2, label = 't0+t2', color = 'r')
+# plt.plot(x,t0+t1+t2, label = 't0+t1+t2', color = 'g')
+# plt.legend()
+# plt.ylim(-0.1,1.3)
+# plt.title(f'r={r}nm')
 
 
 
@@ -104,12 +104,12 @@ plt.title(f'r={r}nm')
 
 #%%
 
+A=100
 
-A=200
 phi = 1 * np.pi / 2  
 
 # R variation
-rplot = np.linspace(0.1,600,100)
+rplot = np.linspace(0.1,2*A,100)
 a0_r = np.zeros(len(rplot))
 a1_r = np.zeros(len(rplot))
 b1_r = np.zeros(len(rplot))
@@ -134,13 +134,16 @@ F1_donut = np.degrees(np.mod(np.arctan2(-b1_r, -a1_r), 2 * np.pi))
 F2 = np.degrees(np.mod(np.arctan2(-b2_r, -a2_r), 2 * np.pi))
 
 
-    
 plt.figure(figsize=(4, 3))
 
-plt.plot(rplot, A1/A0, label='A1/A0', color = 'b', marker='.')
-# plt.plot(rplot, A*A2/A0, label='A * A2/A0', color = 'r', marker='.')
-# plt.plot(rplot, A*A2/A1, label='A * A2/A1', color = 'm', marker='.')
-# plt.plot(rplot, A*(A2+A1)/A0, label='A * (A1+A2)/A0', color = 'orange', marker='.')
+plt.plot(rplot, A0, label='A0', color = 'k', marker='.')
+plt.plot(rplot, A1, label='A1', color = 'b', marker='.')
+plt.plot(rplot, A1/A0, label='A1/A0', color = 'royalblue', marker='.')
+
+
+plt.plot(rplot, A2, label='A2', color = 'r', marker='.')
+plt.plot(rplot, A2/A0, label='A2/A0', color = 'tomato', marker='.')
+plt.plot(rplot, A2/A1, label='A2/A1', color = 'm', marker='.')
 
 # plt.plot(rplot, F1_gauss, label='F1', color = 'grey', marker='s')
 
@@ -149,12 +152,12 @@ plt.plot(rplot, A1/A0, label='A1/A0', color = 'b', marker='.')
 
 # plt.plot(rplot,rplot, color='r', label = 'y=x')
 
-# plt.fill_between(rplot, -0.2, 2000, where=rplot < A, alpha=0.5, label = 'inside of orbit')
+plt.fill_between(rplot, -0.1, 2, where=rplot < A, alpha=0.3)
 
 plt.legend(loc='upper right')
 plt.xlabel('r (nm)')
 plt.ylabel('Fourier coefficient')
-# plt.ylim(-10,150)
+plt.ylim(0,2)
 # plt.ylim(-10,400)
 plt.title(f'{haz}, phi = {phi*180/np.pi}'+r'$^\circ$'+f', w0={w0}, A={A}')
 plt.tight_layout()

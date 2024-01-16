@@ -26,9 +26,9 @@ I0 = 1
 w0 = 300
 
 
-N = 100 #Orbit points
+N = 100 #points in orbit
 
-A = 150
+A = 150 #orbit radius
 theta = np.linspace(0, 2*np.pi, N)
 
 r = 100
@@ -39,17 +39,17 @@ l = 400         #max particle distance from origin
 
 #%%
 
-# #psf plot
-# fig = plt.figure(figsize=(5, 3))
-# rplot = np.linspace(-2*w0,2*w0,100)
-# plt.plot(rplot, Iorb_gauss(rplot,0,0,0,I0,w0,B), label='gauss')
-# plt.plot(rplot, Iorb_donut(rplot,0,0,0,I0,w0,B), label='donut')
-# plt.title(f'I0={I0}, w0={w0}nm, (A,theta)=(0,0), (r,phi)=(0,0)')
-# plt.ylabel('I (a.u.)')
-# plt.xlabel('x (nm)')
-# plt.grid()
-# plt.legend()
-# plt.tight_layout()
+#psf plot
+fig = plt.figure(figsize=(5, 3))
+rplot = np.linspace(-2*w0,2*w0,100)
+plt.plot(rplot, Iorb_gauss(rplot,0,0,0,I0,w0), label='gauss')
+plt.plot(rplot, Iorb_donut(rplot,0,0,0,I0,w0), label='donut')
+plt.title(f'I0={I0}, w0={w0}nm, (A,theta)=(0,0), (r,phi)=(0,0)')
+plt.ylabel('I (a.u.)')
+plt.xlabel('x (nm)')
+plt.grid()
+plt.legend()
+plt.tight_layout()
     
 
 
