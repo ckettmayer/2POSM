@@ -5,7 +5,7 @@ Created on Thu Nov 16 11:40:22 2023
 @author: ckettmayer
 """
 
-# import addcopyfighandler
+import addcopyfighandler
 from matplotlib.widgets import Slider
 import numpy as np
 import matplotlib.pyplot as plt
@@ -59,7 +59,7 @@ plt.tight_layout()
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
-psf = 'd'
+psf = 'g'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0):
@@ -137,7 +137,7 @@ ax.set_ylim(0, l+50)
 
 
        
-fig.suptitle(f'{haz} \n I0={I0}, w0={w0}nm, N={N}, A={A}nm')
+fig.suptitle(f'{haz} \n I0={I0}, w0={w0}nm, N={N}')
 
 
 

@@ -8,7 +8,7 @@ Created on Wed Nov 15 17:25:31 2023
 
 ### Plot intensity traces for multiple particle positions###
 
-# import addcopyfighandler
+import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
@@ -26,7 +26,7 @@ I0 = 1
 w0 = 300
 B = 0
 
-A = 25  #orbit radius
+A = 200  #orbit radius
 N = 100 #points in orbit
 theta = np.linspace(0, 2*np.pi,N)
 
@@ -36,7 +36,7 @@ l = 150
 
 
 #Particle positions
-rm = np.array([0, 10, 25])
+rm = np.array([0,50,100,150, 200])
 phim = np.array([0, np.pi/2, np.pi, 3*np.pi/2])
 
 r = 100
@@ -70,7 +70,7 @@ c = cm.plasma(values)
 
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
-psf = 'g'
+psf = 'd'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0):
@@ -97,11 +97,13 @@ ax1 = fig.add_subplot(gs[0], projection='polar')
 plt.subplots_adjust(top=0.8, left=0.05, hspace=0.9)
 
 #Create a polar mesh for PSF plot
-xplot = np.linspace(-10*max(rm),10*max(rm),150)
-yplot = np.linspace(-10*max(rm),10*max(rm),200)
+xplot = np.linspace(-3*max(rm),3*max(rm),150)
+yplot = np.linspace(-3*max(rm),3*max(rm),200)
 X, Y = np.meshgrid(xplot, yplot)
 #Convert to polar coordinates
 R, Phi = np.sqrt(X**2 + Y**2), np.arctan2(Y, X)
+
+
 
 #Custom colormap white-red for PSF
 color_max = 'red'  
@@ -121,6 +123,7 @@ for i in range(len(rm)):
     ax1.scatter(phi,rm[i], color=c[i], marker='*', s=250, edgecolors='k', zorder=3)           #particle - multiple r
     # ax1.scatter(phim[i],r, color=c[i], marker='*', s=250, edgecolors='k', zorder=3)           #particle - multiple phi
 ax1.set_ylim(0, 200)
+# ax1.set_ylim(0, 2*A)
 ax1.set_yticks(np.arange(0, 200, 100))
 
 

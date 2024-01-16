@@ -5,7 +5,7 @@ Created on Tue Nov 28 12:50:01 2023
 @author: ckettmayer
 """
 
-# import addcopyfighandler
+import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -25,7 +25,7 @@ I0 = 1
 w0 = 300
 B = 0
 
-A = 150
+A = 20
 N = 1000 #Cantidad de puntos en la órbita
 theta = np.linspace(0, 2*np.pi,N)
 
@@ -104,8 +104,7 @@ t2 = A2 * np.cos(2 * x - F2)
 
 #%%
 
-A=100
-
+A=25
 phi = 1 * np.pi / 2  
 
 # R variation
@@ -115,6 +114,7 @@ a1_r = np.zeros(len(rplot))
 b1_r = np.zeros(len(rplot))
 a2_r = np.zeros(len(rplot))
 b2_r = np.zeros(len(rplot))
+std_r = np.zeros(len(rplot))
 
 
 
@@ -123,6 +123,7 @@ for i in range(len(rplot)):
     x = theta
     y = Iorb(A,theta,rplot[i],phi,I0,w0) 
     a0_r[i], a1_r[i], b1_r[i], a2_r[i], b2_r[i] = fourier_coef(x,y)[0], fourier_coef(x,y)[1], fourier_coef(x,y)[2], fourier_coef(x,y)[3], fourier_coef(x,y)[4]
+    std_r[i] = np.std(y)
 
 A0 = (a0_r/2)
 A1 = (a1_r**2+b1_r**2)**(1/2)
@@ -137,16 +138,22 @@ F2 = np.degrees(np.mod(np.arctan2(-b2_r, -a2_r), 2 * np.pi))
 plt.figure(figsize=(4, 3))
 
 plt.plot(rplot, A0, label='A0', color = 'k', marker='.')
-plt.plot(rplot, A1, label='A1', color = 'b', marker='.')
+# plt.plot(rplot, A1, label='A1', color = 'b', marker='.')
 plt.plot(rplot, A1/A0, label='A1/A0', color = 'royalblue', marker='.')
 
 
-plt.plot(rplot, A2, label='A2', color = 'r', marker='.')
-plt.plot(rplot, A2/A0, label='A2/A0', color = 'tomato', marker='.')
+# plt.plot(rplot, A2, label='A2', color = 'r', marker='.')
+# plt.plot(rplot, A2/A0, label='A2/A0', color = 'tomato', marker='.')
 plt.plot(rplot, A2/A1, label='A2/A1', color = 'm', marker='.')
 
-# plt.plot(rplot, F1_gauss, label='F1', color = 'grey', marker='s')
 
+# plt.plot(rplot, std_r, label='std', color ='g', marker='.')
+plt.plot(rplot, std_r/A0, label='std/A0', color ='limegreen', marker='.')
+
+
+
+
+# plt.plot(rplot, F1_gauss, label='F1', color = 'grey', marker='s')
 # plt.plot(rplot, F1_donut, label='F1', color = 'grey', marker='s')
 # plt.plot(rplot, F2, label='F2', color = 'tomato', marker='s')
 
