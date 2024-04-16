@@ -5,7 +5,7 @@ Created on Thu Nov 16 11:40:22 2023
 @author: ckettmayer
 """
 
-import addcopyfighandler
+# import addcopyfighandler
 from matplotlib.widgets import Slider
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,13 +28,13 @@ w0 = 300
 
 N = 100 #points in orbit
 
-A = 150 #orbit radius
+A = 100 #orbit radius
 theta = np.linspace(0, 2*np.pi, N)
 
 r = 100
 phi = np.pi/2   #Theta and phi variables are stored in radians, but are plotted in degrees
 
-l = 400         #max particle distance from origin
+l = 100         #max particle distance from origin
 
 
 #%%
@@ -43,7 +43,9 @@ l = 400         #max particle distance from origin
 fig = plt.figure(figsize=(5, 3))
 rplot = np.linspace(-2*w0,2*w0,100)
 plt.plot(rplot, Iorb_gauss(rplot,0,0,0,I0,w0), label='gauss')
+plt.plot(rplot, Iorb_gauss(rplot,0,0,0,2*I0,w0), label='gauss +')
 plt.plot(rplot, Iorb_donut(rplot,0,0,0,I0,w0), label='donut')
+plt.plot(rplot, Iorb_donut(rplot,0,0,0,2*I0,w0), label='donut +')
 plt.title(f'I0={I0}, w0={w0}nm, (A,theta)=(0,0), (r,phi)=(0,0)')
 plt.ylabel('I (a.u.)')
 plt.xlabel('x (nm)')
@@ -57,9 +59,9 @@ plt.tight_layout()
 #%%
 
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
-
-# psf = input(prompt="PSF gauss (g) o dount (d)?: ")
-psf = 'g'
+# 
+psf = input(prompt="PSF gauss (g) o dount (d)?: ")
+# psf = 'g'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0):

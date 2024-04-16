@@ -8,7 +8,7 @@ Created on Thu Dec 14 14:39:02 2023
 #animación orbital tracking
 
 
-import addcopyfighandler
+# import addcopyfighandler
 from matplotlib.widgets import Slider
 import numpy as np
 import matplotlib.pyplot as plt
@@ -33,14 +33,14 @@ def Iorb(A,theta,r,phi,I0,w0):
 
 
 I0 = 1
-w0 = 150
+w0 = 400
 
 
-N = 100 #
+N = 64 #
 
 #posición de la partícula
-r = 100
-phi = np.pi/2 *3 
+r = 75
+phi = np.pi/2 *1
 
 
 N = 24 #Orbit points
@@ -93,7 +93,7 @@ def update(frame):
     theta_m = theta[frame%24] 
     ax1.plot(theta, theta*0+A, color='grey', linestyle= 'dashed')
     ax1.scatter(Phi, R, c=Iorb(R, Phi, A, theta_m, I0, w0), marker='o', s=10, cmap = custom_cmap.reversed(), zorder=1)    #PSF
-    ax1.scatter(phi, r, color='y', marker='*', s=400, edgecolors='k', zorder=3)     #particle
+    ax1.scatter(phi, r, color='y', marker='*', s=600, edgecolors='k', zorder=3)     #particle
     
     ax2.scatter(theta_m, A, c=Iorb(A, theta_m, r, phi, I0, w0), marker='o', s=800, cmap=cm, norm=norm, alpha=1)   #orbit
     
@@ -121,8 +121,8 @@ ax2.set_ylim(0, l)
 
 
 # Crea la animación
-animation = FuncAnimation(fig, update, frames=100, interval=500)
-# animation.save('mi_animacion_gauss.gif', writer='pillow', fps=30)
+animation = FuncAnimation(fig, update, frames=25, interval=500)
+animation.save('otmin_lau.gif', writer='pillow', fps=4)
 
 # Muestra la animación
 plt.show()

@@ -5,7 +5,7 @@ Created on Tue Nov 28 12:50:01 2023
 @author: ckettmayer
 """
 
-import addcopyfighandler
+# import addcopyfighandler
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -38,7 +38,7 @@ phi = np.pi * 1/2
 ##ELEGIR EL HAZ QUE SE VA A GRAFICAR##
 # psf = input(prompt="PSF gauss (g) o dount (d)?: ")
 
-psf = 'd'
+psf = 'g'
 
 if psf == 'g':
     def Iorb(A,theta,r,phi,I0,w0):
@@ -137,18 +137,18 @@ F2 = np.degrees(np.mod(np.arctan2(-b2_r, -a2_r), 2 * np.pi))
 
 plt.figure(figsize=(4, 3))
 
-plt.plot(rplot, A0, label='A0', color = 'k', marker='.')
+# plt.plot(rplot, A0, label='A0', color = 'k', marker='.')
 # plt.plot(rplot, A1, label='A1', color = 'b', marker='.')
 plt.plot(rplot, A1/A0, label='A1/A0', color = 'royalblue', marker='.')
 
 
 # plt.plot(rplot, A2, label='A2', color = 'r', marker='.')
 # plt.plot(rplot, A2/A0, label='A2/A0', color = 'tomato', marker='.')
-plt.plot(rplot, A2/A1, label='A2/A1', color = 'm', marker='.')
+# plt.plot(rplot, A2/A1, label='A2/A1', color = 'm', marker='.')
 
 
 # plt.plot(rplot, std_r, label='std', color ='g', marker='.')
-plt.plot(rplot, std_r/A0, label='std/A0', color ='limegreen', marker='.')
+# plt.plot(rplot, std_r/A0, label='std/A0', color ='limegreen', marker='.')
 
 
 
@@ -161,7 +161,7 @@ plt.plot(rplot, std_r/A0, label='std/A0', color ='limegreen', marker='.')
 
 plt.fill_between(rplot, -0.1, 2, where=rplot < A, alpha=0.3)
 
-plt.legend(loc='upper right')
+plt.legend(loc='upper left')
 plt.xlabel('r (nm)')
 plt.ylabel('Fourier coefficient')
 plt.ylim(0,2)

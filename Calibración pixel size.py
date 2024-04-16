@@ -8,7 +8,7 @@ Created on Mon Nov 20 00:06:10 2023
 
 ### Pixel size calibration (known particle size) ###
 
-import addcopyfighandler
+# import addcopyfighandler
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
